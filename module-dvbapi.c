@@ -8198,8 +8198,13 @@ void dvbapi_write_ecminfo_file(struct s_client *client, ECM_REQUEST *er, uint8_t
 				case E_FOUND:
 					if(er->selected_reader)
 					{
-						fprintf(ecmtxt, "reader: %s\nfrom: %s:%d\nprotocol: %s\nhops: %d\n",
-							reader_name, from_name, from_port, proto_name, hops);
+						if (is_network_reader(er->selected_reader)) {
+							fprintf(ecmtxt, "reader: %s\nfrom: %s:%d\nprotocol: %s\nhops: %d\n",
+								reader_name, from_name, from_port, proto_name, hops);
+						} else {
+							fprintf(ecmtxt, "reader: %s\nfrom: %s - %s\nprotocol: %s\nhops: %d\n",
+								reader_name, from_name, from_device, proto_name, hops);
+						}
 					}
 					break;
 
